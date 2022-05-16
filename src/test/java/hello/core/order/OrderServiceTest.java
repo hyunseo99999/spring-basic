@@ -18,8 +18,6 @@ public class OrderServiceTest {
 
         Order order = orderService.createOrder(member.getId(), "itemA", 10000);
         Assertions.assertEquals(order.getDiscountPrice(), 9000);
-
-
     }
 
 }

@@ -1,6 +1,8 @@
 package hello.core.order;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
@@ -10,13 +12,16 @@ public class OrderServiceImpl implements OrderService {
 
     private final MemberRepository memberRepository = new MemoryMemberRepository();
 
-    private final FixDiscountPolicy fixDiscountPolicy = new FixDiscountPolicy();
+    private DiscountPolicy discountPolicy;
+    // private final FixDiscountPolicy discountPolicy = new FixDiscountPolicy();
+    // private final RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         // 회원 조회
         Member member = memberRepository.findById(memberId);
-        int discountPrice = fixDiscountPolicy.discount(member, itemPrice);
+        int discountPrice = discountPolicy.discount(member, itemPrice);
 
         return new Order(memberId, itemName, itemPrice ,discountPrice);
     }
